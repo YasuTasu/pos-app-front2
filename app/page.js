@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL; // 環境変数からAPIのベースURLを取得
+
 export default function Home() {
   const [barcode, setBarcode] = useState("");
   const [manualInput, setManualInput] = useState("");
@@ -12,8 +14,10 @@ export default function Home() {
     setBarcode(manualInput); // 手動入力値をセット
 
     try {
-      console.log(`🔍 API リクエスト: http://127.0.0.1:8000/api/product/${manualInput}`);
-      const response = await fetch(`http://127.0.0.1:8000/api/product/${manualInput}`);
+      const apiUrl = `${API_BASE_URL}/api/product/${manualInput}`;
+      console.log(`🔍 API リクエスト: ${apiUrl}`);
+      
+      const response = await fetch(apiUrl);
       
       if (!response.ok) {
         throw new Error("商品が見つかりません");
